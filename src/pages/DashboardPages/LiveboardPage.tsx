@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, RefObject, MutableRefObject, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as S from './DashboardPage.styles';
 import './LiveboardPage.css';
@@ -6,10 +6,27 @@ import './LiveboardPage.css';
 import { Select, Space, Button } from 'antd';
 import type { SelectProps } from 'antd';
 
-import { FilterModal} from './FilterComponent/FilterPopup';
+import { FilterModal } from './FilterComponent/FilterPopup';
+
+/* 
+  Imports for TS-LB embed
+*/
+import {
+  Action,
+  HostEvent,
+  LiveboardEmbed,
+  RuntimeFilterOp,
+  useEmbedRef,
+} from '@thoughtspot/visual-embed-sdk/lib/src/react';
+// import * as TSV from '@thoughtspot/visual-embed-sdk/lib/src/react';
+// const { Action, HostEvent, useEmbedRef } = TSV;
+// type LiveboardEmbed = typeof TSV.LiveboardEmbed;
+
+import { PageTitle } from '@app/components/common/PageTitle/PageTitle';
+import styled, { css } from 'styled-components';
+import { FilterOutlined } from '@ant-design/icons';
 
 const { Option } = Select;
-
 
 /* Props Selection Options */
 const options: SelectProps['options'] = [];
@@ -21,14 +38,6 @@ for (let i = 10; i < 36; i++) {
     color: 'orange',
   });
 }
-
-/* 
-  Imports for TS-LB embed
-*/
-import { Action, LiveboardEmbed } from '@thoughtspot/visual-embed-sdk/lib/src/react';
-import { PageTitle } from '@app/components/common/PageTitle/PageTitle';
-import styled, { css } from 'styled-components';
-import { FilterOutlined } from '@ant-design/icons';
 
 /*
   Dummy Data for Application for Filters
@@ -117,9 +126,19 @@ const LiveboardPage: React.FC = () => {
   const [selectedOperation, setSelectedOperation] = useState('');
   const [selectedValue, setSelectedValue] = useState('');
 
-
   /* Filter modal popup for Filters Selection */
   const [modalVisible, setModalVisible] = useState(false);
+
+  const ts_ref = useEmbedRef();
+  const normal_ref = useRef();
+  const type_ts_ref = JSON.stringify(ts_ref);
+  const type_normal_ref = JSON.stringify(normal_ref);
+  // const new_type = typeof useRef<LiveboardEmbed | null>;
+  // Use MutableRefObject as a workaround
+  const embedRef = useEmbedRef();
+
+  // Use useRef to cast MutableRefObject to React.RefObject
+  // const refForLiveboard = useRef<LiveboardEmbed>(null);
 
   const handleOpenModal = () => {
     setModalVisible(true);
@@ -131,7 +150,9 @@ const LiveboardPage: React.FC = () => {
 
   const handleApplyFilter = (selectedFilters: string[]) => {
     // Perform actions with selected filters
-    console.log('Selected Filters:', selectedFilters);
+    console.log('Selected Filters kyebhai:', selectedFilters);
+    console.log(`normal type: ${type_normal_ref}`);
+    console.log(`ts ref type: ${type_ts_ref}`);
   };
 
   const { t } = useTranslation();
@@ -148,11 +169,33 @@ const LiveboardPage: React.FC = () => {
 
   const handleChange = (value: string[]) => {
     console.log(`selected ${value}`);
+    console.log(`normal type: ${type_normal_ref}`);
+    console.log(`ts ref type: ${type_ts_ref}`);
+  };
+
+  const reload = () => {
+    embedRef.current.trigger(HostEvent.Reload, {});
+  };
+
+  const resetFilter = () => {
+    embedRef.current.trigger(HostEvent.UpdateRuntimeFilters, [
+      {
+        columnName: 'state',
+        operator: 'EQ',
+        values: [],
+      },
+      {
+        columnName: 'product type',
+        operator: 'EQ',
+        values: [],
+      },
+    ]);
   };
 
   return (
     <S.FullScreenCol id="lb-embed">
       <PageTitle>{t('common.liveboard')}</PageTitle>
+      <button onClick={reload}>Me reload karta hu ! </button>
       {/* <S.FilterComponent>
         <S.Label>Select Column:</S.Label>
         <S.Select onChange={(e) => setFilter(JSON.parse(e.target.value))}>
@@ -194,15 +237,10 @@ const LiveboardPage: React.FC = () => {
         )}
       </S.FilterComponent> */}
       <div>
-        <Button 
-        onClick={handleOpenModal}
-        icon={<FilterOutlined />}
-        >Open Filters</Button>
-        <FilterModal
-          visible={modalVisible}
-          onClose={handleCloseModal}
-          onApplyFilter={handleApplyFilter}
-        />
+        <Button onClick={handleOpenModal} icon={<FilterOutlined />}>
+          Open Filters
+        </Button>
+        <FilterModal visible={modalVisible} onClose={handleCloseModal} onApplyFilter={handleApplyFilter} />
         {/* Rest of your page */}
       </div>
 
@@ -241,12 +279,20 @@ const LiveboardPage: React.FC = () => {
             Action.RenameModalTitleDescription,
             Action.SpotIQAnalyze,
           ]}
+          ref={embedRef as any}
           hiddenActions={[Action.SyncToOtherApps, Action.SyncToSheets, Action.ManagePipelines]}
           // hideLiveboardHeader={true}
           // hideTabPanel={true}
           visibleTabs={['f897c5de-ee38-46e0-9734-d9ed5d4ecc83', 'bf1d15f4-3690-4b37-8cd1-5f0967cf588c']}
           liveboardId={LB_ONE}
           frameParams={{ height: `${containerDimensions.height * 0.8}px` }}
+          runtimeFilters={[
+            {
+              columnName: 'Account State',
+              operator: RuntimeFilterOp.EQ,
+              values: ['Alabama'],
+            },
+          ]}
         />
       </S.LiveboardComponent>
     </S.FullScreenCol>

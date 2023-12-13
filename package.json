@@ -1,21 +1,16 @@
 {
-  "name": "lightence-admin",
+  "name": "dog-fooding-app",
   "version": "1.0.0",
   "license": "MIT",
   "description": "Free and easy-to-use admin template based on React 17+",
-  "repository": {
-    "type": "git",
-    "url": "git+github.com:altence/lightence-admin.git"
-  },
-  "bugs": {
-    "url": "https://github.com/altence/lightence-admin/issues"
-  },
   "dependencies": {
     "@ant-design/icons": "^4.6.2",
     "@craco/craco": "^6.1.2",
     "@lit-labs/react": "^1.0.2",
     "@react-google-maps/api": "^2.18.1",
     "@reduxjs/toolkit": "^1.7.1",
+    "@thoughtspot/rest-api-sdk": "^2.0.2",
+    "@thoughtspot/visual-embed-sdk": "^1.26.2",
     "antd": "^4.22.4",
     "antd-mask-input": "^2.0.7",
     "axios": "^0.24.0",
@@ -120,7 +115,7 @@
     "*/**/*.{js,ts,tsx}": "yarn lint"
   },
   "engines": {
-    "node": "16.x"
+    "node": "20.x"
   },
   "resolutions": {
     "@types/react": "^18.0.28",
