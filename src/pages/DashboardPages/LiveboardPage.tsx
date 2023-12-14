@@ -139,7 +139,6 @@ const LiveboardPage: React.FC = () => {
 
   // Use useRef to cast MutableRefObject to React.RefObject
   // const refForLiveboard = useRef<LiveboardEmbed>(null);
-
   const handleOpenModal = () => {
     setModalVisible(true);
   };

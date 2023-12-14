@@ -30,12 +30,7 @@ export const FilterModal: React.FC<FilterModalProps> = ({ visible, onClose, onAp
   };
 
   return (
-    <Modal
-      title="Apply Filters"
-      visible={visible}
-      onCancel={onClose}
-      onOk={handleApplyFilter}
-    >
+    <Modal title="Apply Filters" visible={visible} onCancel={onClose} onOk={handleApplyFilter}>
       <Space direction="vertical">
         <Select
           mode="multiple"

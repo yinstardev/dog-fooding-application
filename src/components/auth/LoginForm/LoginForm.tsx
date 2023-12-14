@@ -13,9 +13,9 @@ import * as Auth from '@app/components/layouts/AuthLayout/AuthLayout.styles';
 import { ServerConfiguration, ThoughtSpotRestApi, createConfiguration } from '@thoughtspot/rest-api-sdk';
 import { AuthEventEmitter, AuthStatus, AuthType, init } from '@thoughtspot/visual-embed-sdk';
 
-
-const ts_url = process.env.TS_URL || '';
-
+const ts_url = process.env.REACT_APP_TS_URL || '';
+const username = process.env.REACT_APP_USERNAME || '';
+const password = process.env.REACT_APP_PASSWORD || '';
 
 interface LoginFormData {
   email: string;
@@ -23,8 +23,8 @@ interface LoginFormData {
 }
 
 export const initValues: LoginFormData = {
-  email: '',
-  password: '',
+  email: username,
+  password: password,
 };
 
 /* 
@@ -33,13 +33,13 @@ export const initValues: LoginFormData = {
 */
 const do_init = (email: any, password: any) => {
   init({
-    thoughtSpotHost: "https://champagne.thoughtspotstaging.cloud/",
+    thoughtSpotHost: ts_url,
     authType: AuthType.Basic,
     username: email,
     password: password,
     getAuthToken: async () => {
       const config = createConfiguration({
-        baseServer: new ServerConfiguration("https://champagne.thoughtspotstaging.cloud/", {}),
+        baseServer: new ServerConfiguration(ts_url, {}),
       });
       const tsRestApiClient = new ThoughtSpotRestApi(config);
       const data = await tsRestApiClient.getFullAccessToken({
