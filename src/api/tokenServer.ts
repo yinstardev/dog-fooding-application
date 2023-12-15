@@ -13,6 +13,7 @@ const secret_key = process.env.REACT_APP_SECRET_KEY;
 // saml - function to for callback
 
 app.get('/api/getdata', async (req: any, res: any) => {
+  console.log('Getting the data ready ~~!');
   res.status(205).json({
     name: 'primo',
     email: 'getdata@gmail.com',
