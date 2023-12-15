@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import * as S from './DashboardPage.styles';
 import './LiveboardPage.css';
 
-import { Select, Space, Button } from 'antd';
+import { Select, Space, Button, CheckboxOptionType } from 'antd';
 import type { SelectProps } from 'antd';
 
 import { FilterModal } from './FilterComponent/FilterPopup';
@@ -25,6 +25,8 @@ import {
 import { PageTitle } from '@app/components/common/PageTitle/PageTitle';
 import styled, { css } from 'styled-components';
 import { FilterOutlined } from '@ant-design/icons';
+import { getAPIFilterData } from './FilterComponent/APIRequest';
+import { JsxEmit } from 'typescript';
 
 const { Option } = Select;
 
@@ -123,8 +125,26 @@ const LiveboardPage: React.FC = () => {
 
   const columns = dummyData.data.getPinboardDataSources[0].columns;
   const [filter, setFilter] = useState({} as any);
-  const [selectedOperation, setSelectedOperation] = useState('');
-  const [selectedValue, setSelectedValue] = useState('');
+  const [selectedColumn, setSelectedColumn] = useState({});
+  const [selectedOperation, setSelectedOperation] = useState({});
+  const [selectedValue, setSelectedValue] = useState({});
+  const [filterData, setFilterData] = useState([] as any);
+
+  /*change handling for Filter Values*/
+  const handleColumnChange = (value: string) => {
+    setSelectedColumn(value);
+    setSelectedOperation(''); // Reset operation when column changes
+    setSelectedValue(''); // Reset value when column changes
+  };
+
+  const handleOperationChange = (value: string) => {
+    setSelectedOperation(value);
+    setSelectedValue(''); // Reset value when operation changes
+  };
+
+  const handleValueChange = (value: string) => {
+    setSelectedValue(value);
+  };
 
   /* Filter modal popup for Filters Selection */
   const [modalVisible, setModalVisible] = useState(false);
@@ -137,8 +157,6 @@ const LiveboardPage: React.FC = () => {
   // Use MutableRefObject as a workaround
   const embedRef = useEmbedRef();
 
-  // Use useRef to cast MutableRefObject to React.RefObject
-  // const refForLiveboard = useRef<LiveboardEmbed>(null);
   const handleOpenModal = () => {
     setModalVisible(true);
   };
@@ -172,8 +190,19 @@ const LiveboardPage: React.FC = () => {
     console.log(`ts ref type: ${type_ts_ref}`);
   };
 
-  const reload = () => {
-    embedRef.current.trigger(HostEvent.Reload, {});
+  const reload = async () => {
+    const apiFilterData = await getAPIFilterData();
+    setFilterData(apiFilterData);
+    console.log(`Api Filter Data : ${filterData}`);
+
+    // embedRef.current.trigger(HostEvent.Reload, {});
+
+    // const userInput = 'australia';
+    // embedRef.current.trigger(HostEvent.UpdateRuntimeFilters,[
+    //   {
+
+    //   }
+    // ])
   };
 
   const resetFilter = () => {
@@ -191,10 +220,57 @@ const LiveboardPage: React.FC = () => {
     ]);
   };
 
+  // const handleColumnSelectChange = (e) => {
+
+  // }
+
   return (
     <S.FullScreenCol id="lb-embed">
       <PageTitle>{t('common.liveboard')}</PageTitle>
-      <button onClick={reload}>Me reload karta hu ! </button>
+      <Button onClick={reload}>Reload Host Event </Button>
+      {/* <S.FilterComponent>
+        <S.Label>Select Column:</S.Label>
+        <select onChange={(event) => handleChange(event.target.value)}>
+          <S.Options value="">Select</S.Options>
+          {filterData.map((column: any) => (
+            <S.Options value={column}>
+              {column.name}
+            </S.Options>
+          ))}
+        </select>
+        {selectedColumn && (
+          <div>
+            <S.Label>Select Operation:</S.Label>
+            <select onChange={(value : any) => handleOperationChange(value)}>
+              <S.Options value="">Select</S.Options>
+              {getOperationsForDataType(
+                columns.find((col) => col.name === selectedColumn)?.dataType || ''
+              ).map((operation, index) => (
+                <S.Options key={index} value={operation}>
+                  {operation}
+                </S.Options>
+              ))}
+            </select>
+          </div>
+        )}
+
+        {selectedOperation && (
+          <div>
+            <S.Label>Select Value:</S.Label>
+            <select onChange={(value : any) => handleValueChange(value)}>
+              <S.Options value="">Select</S.Options>
+              {/* You may customize the options based on the selected column's values */}
+      {/* {(columns.find((col) => col.name === selectedColumn)?.values || []).map(
+                (value, index) => (
+                  <S.Options key={index} value={value}>
+                    {value}
+                  </S.Options>
+                )
+              )}
+            </select>
+          </div>
+        )}
+      </S.FilterComponent> */}
       {/* <S.FilterComponent>
         <S.Label>Select Column:</S.Label>
         <S.Select onChange={(e) => setFilter(JSON.parse(e.target.value))}>
@@ -252,10 +328,16 @@ const LiveboardPage: React.FC = () => {
           allowClear
           style={{ width: '100%' }}
           placeholder="Please select"
-          defaultValue={['a10', 'c12']}
-          onChange={handleChange}
-          options={options}
-        />
+          onChange={(e) => handleChange(JSON.parse(e.target.value))}
+        >
+          <Select.Option value="">Select Value</Select.Option>
+          {filterData?.map((column: any) => (
+            <Select.Option key={column.id} value={JSON.stringify(column)}>
+              {column.name}
+            </Select.Option>
+          ))}
+        </Select>
+        {}
 
         <Select
           className="select-bg"

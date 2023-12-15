@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState, useTransition } from 'react';
 import * as S from './DashboardPage.styles';
 import { logout, RuntimeFilterOp } from '@thoughtspot/visual-embed-sdk';
 import { Action, LiveboardEmbed } from '@thoughtspot/visual-embed-sdk/lib/src/react';
-import axios from 'axios';
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { PageTitle } from '@app/components/common/PageTitle/PageTitle';
 import { useTranslation } from 'react-i18next';
 

@@ -12,6 +12,7 @@ import * as Auth from '@app/components/layouts/AuthLayout/AuthLayout.styles';
 
 import { ServerConfiguration, ThoughtSpotRestApi, createConfiguration } from '@thoughtspot/rest-api-sdk';
 import { AuthEventEmitter, AuthStatus, AuthType, init } from '@thoughtspot/visual-embed-sdk';
+import axios from 'axios';
 
 const ts_url = process.env.REACT_APP_TS_URL || '';
 const username = process.env.REACT_APP_USERNAME || '';
@@ -34,21 +35,42 @@ export const initValues: LoginFormData = {
 const do_init = (email: any, password: any) => {
   init({
     thoughtSpotHost: ts_url,
-    authType: AuthType.Basic,
-    username: email,
-    password: password,
+    authType: AuthType.TrustedAuthTokenCookieless,
+    // username: email,
+    // password: password,
     getAuthToken: async () => {
-      const config = createConfiguration({
-        baseServer: new ServerConfiguration(ts_url, {}),
-      });
-      const tsRestApiClient = new ThoughtSpotRestApi(config);
-      const data = await tsRestApiClient.getFullAccessToken({
-        username: email,
-        password,
-        validity_time_in_sec: 40,
-      });
+      // const config = createConfiguration({
+      //   baseServer: new ServerConfiguration(ts_url, {}),
+      // });
+      // const tsRestApiClient = new ThoughtSpotRestApi(config);
+      // const data = await tsRestApiClient.getFullAccessToken({
+      //   username: email,
+      //   password,
+      //   validity_time_in_sec: 40,
+      // });
+      try {
+        const response = await axios.post(
+          'https://localhost:3000/api/get-token',
+          {
+            validity_time_in_sec: 300,
+            org_id: 0,
+            auto_create: false,
+            secret_key: 'Some',
+          },
+          {
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+          },
+        );
 
-      return data.token;
+        return response.data.token;
+      } catch (error) {
+        console.error('Error fetching authentication token:', error);
+        // Handle error or return a default value
+        return '';
+      }
     },
     autoLogin: true,
   });
@@ -67,9 +89,14 @@ export const LoginForm: React.FC = () => {
     const { email, password } = values;
     console.log('Haha Email : ', email);
     setLoading(true);
+    console.log('before just axios post ');
+
     do_init(email, password); /* Init Function Called */
+    // navigate('https://dev-01842717.okta.com/app/dev-01842717_test1_1/exkdrboycze4bMJ9E5d7/sso/saml');
+    // window.location.replace('https://dev-01842717.okta.com/app/dev-01842717_dogfoodingtest_1/exkdtyg9reZvzT3Vj5d7/sso/saml');
 
     // navigate('/dfg/dashboard');
+    console.log('after navigating');
     dispatch(doLogin(values))
       .unwrap()
       .then(() => navigate('/dfg/dashboard'))
