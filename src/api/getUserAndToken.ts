@@ -38,7 +38,6 @@ export const fetchUserAndToken = async () => {
     // Use the JWT token to authenticate the request to the /whoami endpoint
     const userResponse = await axios.get('http://localhost:1337/whoami', {
       withCredentials: true,
-      headers: { Authorization: `Bearer ${jwtToken}` },
     });
 
     if (userResponse.data && userResponse.data.user && userResponse.data.user.nameID) {
@@ -47,7 +46,7 @@ export const fetchUserAndToken = async () => {
         'http://localhost:1337/getAuthToken',
         {},
         {
-          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${jwtToken}` },
+          headers: { 'Content-Type': 'application/json' },
         },
       );
 

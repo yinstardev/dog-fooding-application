@@ -25,7 +25,6 @@ export const tseSlice = createSlice({
       if (state.tseInitialized || state.tseInitializationStarted) {
         return;
       }
-      console.log('here init', initialState.host);
       init({
         thoughtSpotHost: initialState.host,
         authType: AuthType.TrustedAuthTokenCookieless,

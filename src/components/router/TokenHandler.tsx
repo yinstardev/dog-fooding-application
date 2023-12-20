@@ -1,3 +1,4 @@
+import { fetchUserAndToken } from '@app/api/getUserAndToken';
 import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
