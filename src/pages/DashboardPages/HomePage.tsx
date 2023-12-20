@@ -33,7 +33,6 @@ const DashboardPage: React.FC = () => {
     return () => {
       resizeObserver.disconnect();
     };
-    // runtime filters to be included
   }, [filters]);
 
   const tseState = useAppSelector((state) => state.tse);
@@ -43,12 +42,7 @@ const DashboardPage: React.FC = () => {
     return <div>Tse not initialized yet</div>;
   }
 
-  /* 
-    FetchData for Filters 
-  */
-
   const LB_ONE = '1d8000d8-6225-4202-b56c-786fd73f95ad';
-
   return (
     <S.FullScreenCol ref={containerRef}>
       <PageTitle>{t('common.home')}</PageTitle>
@@ -70,14 +64,6 @@ const DashboardPage: React.FC = () => {
           '0ff52fb5-1950-45a4-b2a0-27c1f5e888e2',
           'd13158bc-1597-4caa-8fdd-cd57f468831a',
         ]}
-        // runtimeFilters= {[
-        //   {
-        //     columnName: "Account Name",
-        //     operator: RuntimeFilterOp.EQ,
-        //     values: ["Accredible"]
-        //   }
-
-        // ]}
         hideLiveboardHeader={true}
       />
     </S.FullScreenCol>
