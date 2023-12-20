@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState, useTransition } from 'react';
 import * as S from './DashboardPage.styles';
-import { logout, RuntimeFilterOp } from '@thoughtspot/visual-embed-sdk';
 import { Action, LiveboardEmbed } from '@thoughtspot/visual-embed-sdk/lib/src/react';
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { PageTitle } from '@app/components/common/PageTitle/PageTitle';
 import { useTranslation } from 'react-i18next';
+import { useAppDispatch, useAppSelector } from '@app/hooks/reduxHooks';
+import { startTseInitialization, tseSlice } from '@app/store/slices/tseSlice';
 
 /*
   Home Page : 
@@ -12,18 +12,11 @@ import { useTranslation } from 'react-i18next';
     - Livebord with 4 tiles 
 */
 
-const HomePage: React.FC = () => {
+const DashboardPage: React.FC = () => {
+  const { t } = useTranslation();
   const [containerDimensions, setContainerDimensions] = useState({ width: 0, height: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
-  const [data, setData] = useState([]);
   const [filters, setFilters] = useState([]);
-
-  const { t } = useTranslation();
-  /* 
-    FetchData for Filters 
-  */
-
-  const LB_ONE = '1d8000d8-6225-4202-b56c-786fd73f95ad';
 
   useEffect(() => {
     const resizeObserver = new ResizeObserver((entries) => {
@@ -42,6 +35,19 @@ const HomePage: React.FC = () => {
     };
     // runtime filters to be included
   }, [filters]);
+
+  const tseState = useAppSelector((state) => state.tse);
+  const dispatch = useAppDispatch();
+  if (!tseState.tseInitialized) {
+    dispatch(startTseInitialization());
+    return <div>Tse not initialized yet</div>;
+  }
+
+  /* 
+    FetchData for Filters 
+  */
+
+  const LB_ONE = '1d8000d8-6225-4202-b56c-786fd73f95ad';
 
   return (
     <S.FullScreenCol ref={containerRef}>
@@ -78,4 +84,4 @@ const HomePage: React.FC = () => {
   );
 };
 
-export default HomePage;
+export default DashboardPage;
