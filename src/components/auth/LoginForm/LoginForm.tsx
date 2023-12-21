@@ -35,14 +35,14 @@ export const LoginForm: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [token, setToken] = useState<string>('');
   const [formInitialValues, setFormInitialValues] = useState<LoginFormData>({
-    email: 'dmmy@gmail.com',
+    email: 'prinostaged@gmail.com',
     password: 'egfe',
   });
   const tseState = useAppSelector((state) => state.tse);
   useEffect(() => {
     const initialize = async () => {
       const userData = await fetchUserAndToken();
-      setEmail(userData.email);
+      await setEmail(userData.email);
       setToken(userData.token);
       if (email) {
         setFormInitialValues({ email: email, password: 'random' });
@@ -57,7 +57,7 @@ export const LoginForm: React.FC = () => {
     };
 
     initialize();
-  }, [dispatch, email]);
+  }, [dispatch]);
 
   const handleSubmit = (values: LoginFormData) => {
     setLoading(true);
