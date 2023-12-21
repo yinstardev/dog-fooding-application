@@ -69,9 +69,9 @@ export const LoginForm: React.FC = () => {
         for (const cookie in allCookies) {
           Cookies.remove(cookie);
         }
-        navigate('/dfg/dashboard');
+        navigate('/dashboard');
       })
-      .catch((err) => {
+      .catch((err: any) => {
         notificationController.error({ message: err.message });
         setLoading(false);
       });

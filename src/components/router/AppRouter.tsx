@@ -19,7 +19,7 @@ import DashboardPage from '@app/pages/DashboardPages/HomePage';
 
 const Logout = React.lazy(() => import('./Logout'));
 
-export const HOME_PATH = '/dfg';
+export const HOME_PATH = '/';
 export const LIVEBOARD_PATH = 'liveboard';
 
 const AuthLayoutFallback = withLoading(AuthLayout);

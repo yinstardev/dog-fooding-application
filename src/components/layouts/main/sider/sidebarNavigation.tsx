@@ -12,12 +12,12 @@ export const sidebarNavigation: SidebarNavigationItem[] = [
   {
     title: 'common.home',
     key: 'home',
-    url: '/dfg/dashboard',
+    url: '/dashboard',
   },
   {
     title: 'Support-Central',
     key: 'liveboard',
-    url: '/dfg/liveboard',
+    url: '/liveboard',
   },
   // {
   //   title: 'home-2',
@@ -27,11 +27,11 @@ export const sidebarNavigation: SidebarNavigationItem[] = [
   {
     title: 'support-central',
     key: 'support-central',
-    url: '/dfg/support-central',
+    url: '/support-central',
   },
   {
     title: 'champagne',
     key: 'champagne',
-    url: '/dfg/champagne',
+    url: '/champagne',
   },
 ];
