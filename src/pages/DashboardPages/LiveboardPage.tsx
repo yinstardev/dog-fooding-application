@@ -4,9 +4,6 @@ import * as S from './DashboardPage.styles';
 import './LiveboardPage.css';
 
 import { Select, Space, Button } from 'antd';
-import type { SelectProps } from 'antd';
-
-import { FilterModal } from './FilterComponent/FilterPopup';
 
 /* 
   Imports for TS-LB embed
@@ -18,80 +15,13 @@ import {
   RuntimeFilterOp,
   useEmbedRef,
 } from '@thoughtspot/visual-embed-sdk/lib/src/react';
-// import * as TSV from '@thoughtspot/visual-embed-sdk/lib/src/react';
-// const { Action, HostEvent, useEmbedRef } = TSV;
-// type LiveboardEmbed = typeof TSV.LiveboardEmbed;
 
 import { PageTitle } from '@app/components/common/PageTitle/PageTitle';
-import styled, { css } from 'styled-components';
-import { FilterOutlined } from '@ant-design/icons';
+import { getAPIFilterData } from './FilterComponent/APIRequest';
+import { useAppDispatch, useAppSelector } from '@app/hooks/reduxHooks';
+import { startTseInitialization, tseSlice } from '@app/store/slices/tseSlice';
 
 const { Option } = Select;
-
-/* Props Selection Options */
-const options: SelectProps['options'] = [];
-
-for (let i = 10; i < 36; i++) {
-  options.push({
-    label: i.toString(36) + i,
-    value: i.toString(36) + i,
-    color: 'orange',
-  });
-}
-
-/*
-  Dummy Data for Application for Filters
-*/
-const dummyData = {
-  data: {
-    getPinboardDataSources: [
-      {
-        id: '4dcfc755-87ea-439c-843d-44d9d9df9276',
-        name: 'Case Customer Count',
-        type: 'WORKSHEET',
-        columns: [
-          {
-            id: '836fc082-92c9-40a3-9cef-a71fd3314954',
-            name: 'Quarter FY',
-            type: 'ATTRIBUTE',
-            dataType: 'CHAR',
-            values: ['Q1', 'Q2', 'Q3', 'Q4'],
-            description: '',
-            __typename: 'PinboardSourceColumn',
-          },
-          {
-            id: 'ccb6432c-f972-433d-a24a-730eda700171',
-            name: 'Case Count',
-            type: 'MEASURE',
-            dataType: 'INT64',
-            values: [12, 13, 14],
-            description: '',
-            __typename: 'PinboardSourceColumn',
-          },
-          {
-            id: 'c170e33e-5482-4088-a746-804d4ab5a19e',
-            name: 'Customer Count',
-            type: 'MEASURE',
-            dataType: 'INT64',
-            values: [11, 12, 13],
-            description: '',
-            __typename: 'PinboardSourceColumn',
-          },
-          {
-            id: '23772a8f-1c16-4e77-bb75-dbdf71b2ddff',
-            name: 'Case Segment',
-            type: 'ATTRIBUTE',
-            dataType: 'CHAR',
-            values: ['Segment A', 'Segment B', 'Segment C'],
-            description: '',
-            __typename: 'PinboardSourceColumn',
-          },
-        ],
-        __typename: 'PinboardSourceDetail',
-      },
-    ],
-  },
-};
 
 /* 
     FetchData for Filters : 
@@ -119,45 +49,16 @@ const getOperationsForDataType = (dataType: string): string[] => {
 */
 
 const LiveboardPage: React.FC = () => {
+  const { t } = useTranslation();
   const [containerDimensions, setContainerDimensions] = useState({ width: 0, height: 0 });
 
-  const columns = dummyData.data.getPinboardDataSources[0].columns;
-  const [filter, setFilter] = useState({} as any);
-  const [selectedOperation, setSelectedOperation] = useState('');
-  const [selectedValue, setSelectedValue] = useState('');
+  const [selectedValue, setSelectedValue] = useState({});
+  const [filterData, setFilterData] = useState([] as any);
 
-  /* Filter modal popup for Filters Selection */
-  const [modalVisible, setModalVisible] = useState(false);
+  const tseState = useAppSelector((state) => state.tse);
 
-  const ts_ref = useEmbedRef();
-  const normal_ref = useRef();
-  const type_ts_ref = JSON.stringify(ts_ref);
-  const type_normal_ref = JSON.stringify(normal_ref);
-  // const new_type = typeof useRef<LiveboardEmbed | null>;
-  // Use MutableRefObject as a workaround
+  const dispatch = useAppDispatch();
   const embedRef = useEmbedRef();
-
-  // Use useRef to cast MutableRefObject to React.RefObject
-  // const refForLiveboard = useRef<LiveboardEmbed>(null);
-  const handleOpenModal = () => {
-    setModalVisible(true);
-  };
-
-  const handleCloseModal = () => {
-    setModalVisible(false);
-  };
-
-  const handleApplyFilter = (selectedFilters: string[]) => {
-    // Perform actions with selected filters
-    console.log('Selected Filters kyebhai:', selectedFilters);
-    console.log(`normal type: ${type_normal_ref}`);
-    console.log(`ts ref type: ${type_ts_ref}`);
-  };
-
-  const { t } = useTranslation();
-
-  const LB_ONE = '1d8000d8-6225-4202-b56c-786fd73f95ad';
-
   useEffect(() => {
     const container = document.getElementById('lb-embed');
     if (container) {
@@ -166,14 +67,20 @@ const LiveboardPage: React.FC = () => {
     }
   }, []);
 
+  if (!tseState.tseInitialized) {
+    dispatch(startTseInitialization());
+    return <div>Tse not initialized yet</div>;
+  }
+
+  const LB_ONE = '1d8000d8-6225-4202-b56c-786fd73f95ad';
+
   const handleChange = (value: string[]) => {
-    console.log(`selected ${value}`);
-    console.log(`normal type: ${type_normal_ref}`);
-    console.log(`ts ref type: ${type_ts_ref}`);
+    setSelectedValue(value);
   };
 
-  const reload = () => {
-    embedRef.current.trigger(HostEvent.Reload, {});
+  const reload = async () => {
+    const apiFilterData = await getAPIFilterData();
+    setFilterData(apiFilterData);
   };
 
   const resetFilter = () => {
@@ -194,54 +101,7 @@ const LiveboardPage: React.FC = () => {
   return (
     <S.FullScreenCol id="lb-embed">
       <PageTitle>{t('common.liveboard')}</PageTitle>
-      <button onClick={reload}>Me reload karta hu ! </button>
-      {/* <S.FilterComponent>
-        <S.Label>Select Column:</S.Label>
-        <S.Select onChange={(e) => setFilter(JSON.parse(e.target.value))}>
-          <S.Options value="">Select</S.Options>
-          {columns.map((column, index) => (
-            <S.Options style={{ background: 'red' }} key={index} value={JSON.stringify(column)}>
-              {column.name}
-            </S.Options>
-          ))}
-        </S.Select>
-        {filter?.dataType && (
-          <div>
-            <S.Label>Select Operation:</S.Label>
-            <S.Select onChange={(e) => setSelectedOperation(e.target.value)}>
-              <S.Options value="">Select</S.Options>
-              {getOperationsForDataType(filter.dataType).map((operation, index) => (
-                <S.Options key={index} value={operation}>
-                  {operation}
-                </S.Options>
-              ))}
-            </S.Select>
-          </div>
-        )}
-
-        {selectedOperation && (
-          <div>
-            <S.Label>Select Value:</S.Label>
-            <S.Select onChange={(e) => setSelectedValue(e.target.value)}>
-              <S.Options value="">Select</S.Options>
-              {columns
-                .find((column) => column.name === filter.name)
-                ?.values?.map((value, index) => (
-                  <S.Options key={index} value={value}>
-                    {value}
-                  </S.Options>
-                ))}
-            </S.Select>
-          </div>
-        )}
-      </S.FilterComponent> */}
-      <div>
-        <Button onClick={handleOpenModal} icon={<FilterOutlined />}>
-          Open Filters
-        </Button>
-        <FilterModal visible={modalVisible} onClose={handleCloseModal} onApplyFilter={handleApplyFilter} />
-        {/* Rest of your page */}
-      </div>
+      <Button onClick={reload}>Get Columns Data </Button>
 
       <Space style={{ width: '100%' }} direction="vertical">
         <Select
@@ -252,10 +112,16 @@ const LiveboardPage: React.FC = () => {
           allowClear
           style={{ width: '100%' }}
           placeholder="Please select"
-          defaultValue={['a10', 'c12']}
-          onChange={handleChange}
-          options={options}
-        />
+          onChange={(e) => handleChange(JSON.parse(e.target.value))}
+        >
+          <Select.Option value="">Select Value</Select.Option>
+          {filterData?.map((column: any) => (
+            <Select.Option key={column.id} value={JSON.stringify(column)}>
+              {column.name}
+            </Select.Option>
+          ))}
+        </Select>
+        {}
 
         <Select
           className="select-bg"
@@ -265,7 +131,6 @@ const LiveboardPage: React.FC = () => {
           placeholder="Please select"
           defaultValue={['a10', 'c12']}
           onChange={handleChange}
-          options={options}
         />
       </Space>
       <S.LiveboardComponent>
@@ -277,6 +142,8 @@ const LiveboardPage: React.FC = () => {
             Action.Share,
             Action.RenameModalTitleDescription,
             Action.SpotIQAnalyze,
+            Action.SyncToSheets,
+            Action.SyncToOtherApps,
           ]}
           ref={embedRef as any}
           hiddenActions={[Action.SyncToOtherApps, Action.SyncToSheets, Action.ManagePipelines]}

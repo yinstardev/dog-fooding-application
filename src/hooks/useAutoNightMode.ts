@@ -45,13 +45,13 @@ export const useAutoNightMode = (): void => {
 
     if (isNightMode) {
       if (isNight(nightTime)) {
-        dispatch(setTheme('dark'));
+        dispatch(setTheme('light'));
       } else {
         dispatch(setTheme('light'));
       }
 
       const runTimeoutStart = () => {
-        dispatch(setTheme('dark'));
+        dispatch(setTheme('light'));
         timeoutNightStarts = setTimeout(runTimeoutStart, 24 * 3600 * 1000);
       };
 
