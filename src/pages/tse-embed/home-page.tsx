@@ -25,7 +25,7 @@ export function HomePage() {
       <b>Home Page</b>
       <div className="tseEmbed">
         <LiveboardEmbed
-          preRenderId={tseState.supportCentralLiveboard + '-home'}
+          preRenderId={tseState.supportCentralLiveboard + '-home2'}
           liveboardId={tseState.supportCentralLiveboard}
           visibleVizs={[
             '07e621b5-51b9-40a1-bfee-ad99e2e66f32',
