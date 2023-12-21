@@ -36,7 +36,7 @@ export const AppRouter: React.FC = () => {
     <BrowserRouter>
       <Routes>
         {/* Need Redirect when user is logged in already. */}
-        <Route path="/" element={<Navigate to="/auth/login" />} />
+        {/* <Route path="/" element={<Navigate to="/auth/login" />} /> */}
         <Route path="/token-handler" element={<TokenHandler />} />
         <Route path="/auth" element={<AuthLayoutFallback />}>
           <Route index path="login" element={<LoginPage />} />
