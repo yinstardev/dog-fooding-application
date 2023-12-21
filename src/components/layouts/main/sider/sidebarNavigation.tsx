@@ -9,21 +9,21 @@ export interface SidebarNavigationItem {
 }
 
 export const sidebarNavigation: SidebarNavigationItem[] = [
-  // {
-  //   title: 'common.home',
-  //   key: 'home',
-  //   url: '/dashboard',
-  // },
+  {
+    title: 'common.home',
+    key: 'home',
+    url: '/dashboard',
+  },
   // {
   //   title: 'Support-Central',
   //   key: 'liveboard',
   //   url: '/liveboard',
   // },
-  {
-    title: 'Home',
-    key: 'home-2',
-    url: '/home',
-  },
+  // {
+  //   title: 'Home',
+  //   key: 'home-2',
+  //   url: '/home',
+  // },
   {
     title: 'Support Central',
     key: 'support-central',
