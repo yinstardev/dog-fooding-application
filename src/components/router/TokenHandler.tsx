@@ -14,7 +14,7 @@ const TokenHandler = () => {
     if (token) {
       // Store the token
       localStorage.setItem('token', token);
-      navigate('/dashboard');
+      navigate('/home');
     } else {
       navigate('/auth/login');
     }
