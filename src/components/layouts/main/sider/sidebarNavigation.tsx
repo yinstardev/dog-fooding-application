@@ -25,12 +25,12 @@ export const sidebarNavigation: SidebarNavigationItem[] = [
   //   url: '/dfg/home',
   // },
   {
-    title: 'support-central',
+    title: 'Support Central',
     key: 'support-central',
     url: '/support-central',
   },
   {
-    title: 'champagne',
+    title: 'Champagne',
     key: 'champagne',
     url: '/champagne',
   },

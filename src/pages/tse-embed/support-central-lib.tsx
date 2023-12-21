@@ -102,17 +102,7 @@ export function SupportCentral() {
   const [editAccountNames, setEditAccountNames] = useState<string[]>([]);
   const [editCaseNumbers, setEditCaseNumbers] = useState<string[]>([]);
 
-  const [containerDimensions, setContainerDimensions] = useState({ width: 0, height: 0 });
-
   const embedRef = useEmbedRef();
-
-  useEffect(() => {
-    const container = document.getElementById('lb-embed');
-    if (container) {
-      const { width, height } = container.getBoundingClientRect();
-      setContainerDimensions({ width, height });
-    }
-  }, []);
 
   if (!tseState.tseInitialized) {
     dispatch(startTseInitialization());
@@ -120,7 +110,7 @@ export function SupportCentral() {
   }
 
   return (
-    <BaseRow className="test" id="lb-embed">
+    <BaseRow className="test">
       <b>Support Central</b>
       <BaseButton type="primary" onClick={() => setIsBasicModalOpen(true)}>
         <FilterIcon />
@@ -170,7 +160,6 @@ export function SupportCentral() {
           ref={embedRef as any}
           preRenderId={tseState.supportCentralLiveboard + '-support-central'}
           liveboardId={tseState.supportCentralLiveboard}
-          frameParams={{ height: `${containerDimensions.height * 0.8}px` }}
         />
       </div>
     </BaseRow>

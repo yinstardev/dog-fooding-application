@@ -33,7 +33,7 @@ const DashboardPage: React.FC = () => {
     return () => {
       resizeObserver.disconnect();
     };
-  }, [filters]);
+  }, []);
 
   const tseState = useAppSelector((state) => state.tse);
   const dispatch = useAppDispatch();
@@ -48,7 +48,7 @@ const DashboardPage: React.FC = () => {
     <S.FullScreenCol ref={containerRef}>
       <PageTitle>{t('common.home')}</PageTitle>
       <LiveboardEmbed
-        liveboardId={tseState.supportCentralLiveboard}
+        liveboardId={LB_ONE}
         frameParams={{ height: `${containerDimensions.height / 2}px` }}
         hiddenActions={[Action.SyncToOtherApps, Action.SyncToSheets, Action.ManagePipelines]}
         preRenderId={tseState.supportCentralLiveboard + '-home'}
