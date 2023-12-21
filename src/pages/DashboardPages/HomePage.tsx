@@ -17,6 +17,12 @@ const DashboardPage: React.FC = () => {
   const [containerDimensions, setContainerDimensions] = useState({ width: 0, height: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
   const [filters, setFilters] = useState([]);
+  const tseState = useAppSelector((state) => state.tse);
+  const dispatch = useAppDispatch();
+  if (!tseState.tseInitialized) {
+    dispatch(startTseInitialization());
+  }
+  dispatch(setTseInitialized(true));
 
   useEffect(() => {
     const resizeObserver = new ResizeObserver((entries) => {
@@ -34,14 +40,6 @@ const DashboardPage: React.FC = () => {
       resizeObserver.disconnect();
     };
   }, []);
-
-  const tseState = useAppSelector((state) => state.tse);
-  const dispatch = useAppDispatch();
-  if (!tseState.tseInitialized) {
-    dispatch(startTseInitialization());
-    return <div>Tse not initialized yet</div>;
-  }
-  dispatch(setTseInitialized(true));
 
   const LB_ONE = '1d8000d8-6225-4202-b56c-786fd73f95ad';
   return (
