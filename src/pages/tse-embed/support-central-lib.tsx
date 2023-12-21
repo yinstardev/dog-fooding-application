@@ -102,7 +102,17 @@ export function SupportCentral() {
   const [editAccountNames, setEditAccountNames] = useState<string[]>([]);
   const [editCaseNumbers, setEditCaseNumbers] = useState<string[]>([]);
 
+  const [containerDimensions, setContainerDimensions] = useState({ width: 0, height: 0 });
+
   const embedRef = useEmbedRef();
+
+  useEffect(() => {
+    const container = document.getElementById('lb-embed');
+    if (container) {
+      const { width, height } = container.getBoundingClientRect();
+      setContainerDimensions({ width, height });
+    }
+  }, []);
 
   if (!tseState.tseInitialized) {
     dispatch(startTseInitialization());
@@ -110,7 +120,7 @@ export function SupportCentral() {
   }
 
   return (
-    <BaseRow className="test">
+    <BaseRow className="test" id="lb-embed">
       <b>Support Central</b>
       <BaseButton type="primary" onClick={() => setIsBasicModalOpen(true)}>
         <FilterIcon />
@@ -155,9 +165,12 @@ export function SupportCentral() {
             Action.RenameModalTitleDescription,
             Action.SpotIQAnalyze,
           ]}
+          hiddenActions={[Action.SyncToOtherApps, Action.SyncToSheets, Action.ManagePipelines]}
+          visibleTabs={['f897c5de-ee38-46e0-9734-d9ed5d4ecc83', 'bf1d15f4-3690-4b37-8cd1-5f0967cf588c']}
           ref={embedRef as any}
           preRenderId={tseState.supportCentralLiveboard + '-support-central'}
           liveboardId={tseState.supportCentralLiveboard}
+          frameParams={{ height: `${containerDimensions.height * 0.8}px` }}
         />
       </div>
     </BaseRow>

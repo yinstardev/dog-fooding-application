@@ -150,7 +150,8 @@ const LiveboardPage: React.FC = () => {
           // hideLiveboardHeader={true}
           // hideTabPanel={true}
           visibleTabs={['f897c5de-ee38-46e0-9734-d9ed5d4ecc83', 'bf1d15f4-3690-4b37-8cd1-5f0967cf588c']}
-          liveboardId={LB_ONE}
+          liveboardId={tseState.supportCentralLiveboard}
+          preRenderId={tseState.supportCentralLiveboard + '-liveboard-page'}
           frameParams={{ height: `${containerDimensions.height * 0.8}px` }}
           runtimeFilters={[
             {

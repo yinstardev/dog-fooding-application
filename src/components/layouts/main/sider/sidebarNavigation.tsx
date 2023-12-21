@@ -14,11 +14,11 @@ export const sidebarNavigation: SidebarNavigationItem[] = [
     key: 'home',
     url: '/dashboard',
   },
-  {
-    title: 'Support-Central',
-    key: 'liveboard',
-    url: '/liveboard',
-  },
+  // {
+  //   title: 'Support-Central',
+  //   key: 'liveboard',
+  //   url: '/liveboard',
+  // },
   // {
   //   title: 'home-2',
   //   key: 'home-2',

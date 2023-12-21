@@ -53,7 +53,6 @@ export const LoginForm: React.FC = () => {
       if (userData.token) {
         await dispatch(setTseInitialized(true));
       }
-      console.log('init recorded');
     };
 
     initialize();

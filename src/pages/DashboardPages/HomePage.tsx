@@ -4,7 +4,7 @@ import { Action, LiveboardEmbed } from '@thoughtspot/visual-embed-sdk/lib/src/re
 import { PageTitle } from '@app/components/common/PageTitle/PageTitle';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from '@app/hooks/reduxHooks';
-import { startTseInitialization, tseSlice } from '@app/store/slices/tseSlice';
+import { setTseInitialized, startTseInitialization, tseSlice } from '@app/store/slices/tseSlice';
 
 /*
   Home Page : 
@@ -41,15 +41,17 @@ const DashboardPage: React.FC = () => {
     dispatch(startTseInitialization());
     return <div>Tse not initialized yet</div>;
   }
+  dispatch(setTseInitialized(true));
 
   const LB_ONE = '1d8000d8-6225-4202-b56c-786fd73f95ad';
   return (
     <S.FullScreenCol ref={containerRef}>
       <PageTitle>{t('common.home')}</PageTitle>
       <LiveboardEmbed
-        liveboardId={LB_ONE}
+        liveboardId={tseState.supportCentralLiveboard}
         frameParams={{ height: `${containerDimensions.height / 2}px` }}
         hiddenActions={[Action.SyncToOtherApps, Action.SyncToSheets, Action.ManagePipelines]}
+        preRenderId={tseState.supportCentralLiveboard + '-home'}
         disabledActions={[
           Action.DownloadAsPdf,
           Action.Edit,
