@@ -14,7 +14,7 @@ import { setTseInitialized, startTseInitialization, tseSlice } from '@app/store/
 
 const DashboardPage: React.FC = () => {
   const { t } = useTranslation();
-  // const [containerDimensions, setContainerDimensions] = useState({ width: 0, height: 0 });
+  const [containerDimensions, setContainerDimensions] = useState({ width: 0, height: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
   const [filters, setFilters] = useState([]);
   const tseState = useAppSelector((state) => state.tse);
@@ -24,22 +24,22 @@ const DashboardPage: React.FC = () => {
   }
   dispatch(setTseInitialized(true));
 
-  // useEffect(() => {
-  //   const resizeObserver = new ResizeObserver((entries) => {
-  //     for (const entry of entries) {
-  //       const { width, height } = entry.contentRect;
-  //       setContainerDimensions({ width, height });
-  //     }
-  //   });
+  useEffect(() => {
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const { width, height } = entry.contentRect;
+        setContainerDimensions({ width, height });
+      }
+    });
 
-  //   if (containerRef.current) {
-  //     resizeObserver.observe(containerRef.current);
-  //   }
+    if (containerRef.current) {
+      resizeObserver.observe(containerRef.current);
+    }
 
-  //   return () => {
-  //     resizeObserver.disconnect();
-  //   };
-  // }, []);
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, []);
 
   const LB_ONE = '1d8000d8-6225-4202-b56c-786fd73f95ad';
   return (
@@ -47,7 +47,7 @@ const DashboardPage: React.FC = () => {
       <PageTitle>{t('common.home')}</PageTitle>
       <LiveboardEmbed
         liveboardId={LB_ONE}
-        // frameParams={{ height: `${containerDimensions.height / 2}px` }}
+        frameParams={{ height: `${containerDimensions.height / 2}px` }}
         hiddenActions={[Action.SyncToOtherApps, Action.SyncToSheets, Action.ManagePipelines]}
         preRenderId={tseState.supportCentralLiveboard + '-home'}
         disabledActions={[

@@ -50,6 +50,7 @@ export const fetchUserAndToken = async () => {
         {},
         {
           headers: { 'Content-Type': 'application/json' },
+          withCredentials: true,
         },
       );
 
@@ -57,6 +58,7 @@ export const fetchUserAndToken = async () => {
       return { email: userResponse.data.user.nameID, token: tokenResponse.data };
     } else {
       window.location.replace(`${be_url}/login`);
+      console.log('not able to fetch ');
       return { email: '', token: '' };
     }
   } catch (error) {
