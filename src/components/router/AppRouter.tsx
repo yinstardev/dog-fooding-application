@@ -50,7 +50,7 @@ export const AppRouter: React.FC = () => {
           />
         </Route>
         <Route path={HOME_PATH} element={protectedLayout}>
-          <Route path="dashboard" element={<DashboardPage />} />
+          <Route path="" element={<DashboardPage />} />
           <Route path="home" element={<HomePage />} />
           <Route path={LIVEBOARD_PATH} element={<LiveboardPage />} />
           <Route path="champagne" element={<ChampagneFullApp />} />

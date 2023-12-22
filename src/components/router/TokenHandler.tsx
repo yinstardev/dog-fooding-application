@@ -14,9 +14,9 @@ const TokenHandler = () => {
     if (token) {
       // Store the token
       localStorage.setItem('token', token);
-      navigate('/dashboard');
+      navigate('/');
     } else {
-      navigate('/dashboard');
+      navigate('/');
     }
   }, [location]);
 

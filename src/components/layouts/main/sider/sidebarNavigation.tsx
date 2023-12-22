@@ -12,7 +12,7 @@ export const sidebarNavigation: SidebarNavigationItem[] = [
   {
     title: 'common.home',
     key: 'home',
-    url: '/dashboard',
+    url: '/',
   },
   // {
   //   title: 'Support-Central',
