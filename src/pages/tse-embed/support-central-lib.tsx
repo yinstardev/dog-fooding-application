@@ -110,7 +110,7 @@ export function SupportCentral() {
 
   return (
     <BaseRow className="test">
-      <BaseButton style={{ marginBottom: '1em' }} type="primary" onClick={() => setIsBasicModalOpen(true)}>
+      <BaseButton style={{ marginBottom: '2em' }} type="primary" onClick={() => setIsBasicModalOpen(true)}>
         <FilterIcon />
       </BaseButton>
       <BaseModal
