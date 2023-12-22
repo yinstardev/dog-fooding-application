@@ -102,34 +102,14 @@ export function SupportCentral() {
   const [editAccountNames, setEditAccountNames] = useState<string[]>([]);
   const [editCaseNumbers, setEditCaseNumbers] = useState<string[]>([]);
 
-  const [containerDimensions, setContainerDimensions] = useState({ width: 0, height: 0 });
-  const containerRef = useRef<HTMLDivElement>(null);
-
   const embedRef = useEmbedRef();
 
   if (!tseState.tseInitialized) {
     dispatch(startTseInitialization());
   }
 
-  useEffect(() => {
-    const resizeObserver = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        const { width, height } = entry.contentRect;
-        setContainerDimensions({ width, height });
-      }
-    });
-
-    if (containerRef.current) {
-      resizeObserver.observe(containerRef.current);
-    }
-
-    return () => {
-      resizeObserver.disconnect();
-    };
-  }, []);
-
   return (
-    <BaseRow className="test" ref={containerRef}>
+    <BaseRow className="test">
       <BaseButton type="primary" onClick={() => setIsBasicModalOpen(true)}>
         <FilterIcon />
       </BaseButton>
@@ -173,7 +153,6 @@ export function SupportCentral() {
             Action.RenameModalTitleDescription,
             Action.SpotIQAnalyze,
           ]}
-          frameParams={{ height: `${containerDimensions.height}px` }}
           hiddenActions={[Action.SyncToOtherApps, Action.SyncToSheets, Action.ManagePipelines]}
           visibleTabs={['f897c5de-ee38-46e0-9734-d9ed5d4ecc83', 'bf1d15f4-3690-4b37-8cd1-5f0967cf588c']}
           ref={embedRef as any}
