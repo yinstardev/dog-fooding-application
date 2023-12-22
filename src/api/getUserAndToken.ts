@@ -1,5 +1,16 @@
 import axios from 'axios';
 
+function parseJwt(token: any) {
+  try {
+    const base64Payload = token.split('.')[1]; // Get the payload part
+    const payload = Buffer.from(base64Payload, 'base64').toString('ascii');
+    return JSON.parse(payload);
+  } catch (e) {
+    console.error('Error decoding token:', e);
+    return null;
+  }
+}
+
 // export const fetchUserAndToken = async () => {
 //   try {
 //     const userResponse = await axios.get('http://localhost:1337/whoami', { withCredentials: true });
@@ -39,29 +50,34 @@ export const fetchUserAndToken = async () => {
     // }
 
     // Use the JWT token to authenticate the request to the /whoami endpoint
-    const userResponse = await axios.get(`${be_url}/whoami`, {
-      withCredentials: true,
-    });
-    console.log('inside fetch user token', userResponse.data.user);
+    // const userResponse = await axios.get(`${be_url}/whoami`, {
+    //   withCredentials: true,
+    // });
+    // console.log('inside fetch user token', userResponse.data.user);
 
-    if (userResponse.data && userResponse.data.user && userResponse.data.user.nameID) {
-      // Now fetch the different token that you need for global state
-      const tokenResponse = await axios.post(
-        `${be_url}/getauthtoken`,
-        {},
-        {
-          headers: { 'Content-Type': 'application/json' },
-          withCredentials: true,
-        },
-      );
-      console.log('Token retrieved ig. ', tokenResponse.data);
-      // Return both the user details and the different token
-      return { email: userResponse.data.user.nameID, token: tokenResponse.data };
-    } else {
-      window.location.replace(`${be_url}/login`);
-      console.log('not able to fetch ');
-      return { email: '', token: '' };
+    // if (userResponse.data && userResponse.data.user && userResponse.data.user.nameID) {
+    // Now fetch the different token that you need for global state
+    const payload = parseJwt(jwtToken);
+
+    if (payload) {
+      console.log('Username:', payload.username);
     }
+    const tokenResponse = await axios.post(
+      `${be_url}/getauthtoken`,
+      {},
+      {
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true,
+      },
+    );
+    // console.log('Token retrieved ig. ', tokenResponse.data);
+    // Return both the user details and the different token
+    return { email: payload.username, token: tokenResponse.data };
+    // } else {
+    //   window.location.replace(`${be_url}/login`);
+    //   console.log('not able to fetch ');
+    //   return { email: '', token: '' };
+    // }
   } catch (error) {
     console.error('Error fetching data:', error);
     window.location.replace(`${be_url}/login`);
