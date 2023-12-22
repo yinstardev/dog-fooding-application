@@ -58,13 +58,15 @@ export const fetchUserAndToken = async () => {
     // if (userResponse.data && userResponse.data.user && userResponse.data.user.nameID) {
     // Now fetch the different token that you need for global state
     const payload = parseJwt(jwtToken);
+    let username = '';
 
     if (payload) {
       console.log('Username:', payload.username);
+      username = payload.username;
     }
     const tokenResponse = await axios.post(
       `${be_url}/getauthtoken`,
-      {},
+      { username: username },
       {
         headers: { 'Content-Type': 'application/json' },
         withCredentials: true,
