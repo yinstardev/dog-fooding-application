@@ -16,9 +16,9 @@ const TokenHandler = () => {
       localStorage.setItem('token', token);
       navigate('/dashboard');
     } else {
-      navigate('/auth/login');
+      navigate('/dashboard');
     }
-  }, [location, navigate]);
+  }, [location]);
 
   return <div>Loading...</div>;
 };
