@@ -61,7 +61,6 @@ export const fetchUserAndToken = async () => {
     let username = '';
 
     if (payload) {
-      console.log('Username:', payload.username);
       // username = payload.username;
       username = `${process.env.REACT_APP_USERNAME}`;
     }

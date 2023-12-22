@@ -106,11 +106,8 @@ export const getAPIFilterData = async () => {
   // });
 
   try {
-    console.log('Inside Axios Request');
     const response = await makeSearchRequest(searchRequestData);
-    console.log('Search response:', response);
     const filterData = getColumns(response);
-    console.log(`This is Column Data inside getAPIFilterData Function : ${JSON.stringify(filterData)}`);
     return filterData;
   } catch (err) {
     console.error('Error making search request:', err);
