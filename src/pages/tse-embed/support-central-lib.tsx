@@ -129,7 +129,7 @@ export function SupportCentral() {
   }, []);
 
   return (
-    <BaseRow className="test">
+    <BaseRow className="test" ref={containerRef}>
       <b>Support Central</b>
       <BaseButton type="primary" onClick={() => setIsBasicModalOpen(true)}>
         <FilterIcon />
