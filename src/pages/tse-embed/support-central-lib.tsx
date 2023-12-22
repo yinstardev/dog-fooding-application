@@ -106,11 +106,6 @@ export function SupportCentral() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const embedRef = useEmbedRef();
-
-  if (!tseState.tseInitialized) {
-    dispatch(startTseInitialization());
-  }
-
   useEffect(() => {
     const resizeObserver = new ResizeObserver((entries) => {
       for (const entry of entries) {
@@ -127,6 +122,10 @@ export function SupportCentral() {
       resizeObserver.disconnect();
     };
   }, []);
+
+  if (!tseState.tseInitialized) {
+    dispatch(startTseInitialization());
+  }
 
   return (
     <BaseRow className="test" ref={containerRef}>
