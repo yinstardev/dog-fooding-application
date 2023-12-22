@@ -106,6 +106,11 @@ export function SupportCentral() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const embedRef = useEmbedRef();
+
+  if (!tseState.tseInitialized) {
+    dispatch(startTseInitialization());
+  }
+
   useEffect(() => {
     const resizeObserver = new ResizeObserver((entries) => {
       for (const entry of entries) {
@@ -123,13 +128,8 @@ export function SupportCentral() {
     };
   }, []);
 
-  if (!tseState.tseInitialized) {
-    dispatch(startTseInitialization());
-  }
-
   return (
     <BaseRow className="test" ref={containerRef}>
-      <b>Support Central</b>
       <BaseButton type="primary" onClick={() => setIsBasicModalOpen(true)}>
         <FilterIcon />
       </BaseButton>
@@ -173,7 +173,7 @@ export function SupportCentral() {
             Action.RenameModalTitleDescription,
             Action.SpotIQAnalyze,
           ]}
-          frameParams={{ height: `${containerDimensions.height * 0.8}px` }}
+          frameParams={{ height: `${containerDimensions.height}px` }}
           hiddenActions={[Action.SyncToOtherApps, Action.SyncToSheets, Action.ManagePipelines]}
           visibleTabs={['f897c5de-ee38-46e0-9734-d9ed5d4ecc83', 'bf1d15f4-3690-4b37-8cd1-5f0967cf588c']}
           ref={embedRef as any}
