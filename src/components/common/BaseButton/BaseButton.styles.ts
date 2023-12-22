@@ -13,6 +13,7 @@ export const Button = styled(AntButton)<BtnProps>`
   align-items: center;
   justify-content: center;
   gap: 0.3rem;
+  witdh: 1em;
 
   ${(props) =>
     props.$noStyle &&
