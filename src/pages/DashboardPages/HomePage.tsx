@@ -22,7 +22,7 @@ const DashboardPage: React.FC = () => {
   if (!tseState.tseInitialized) {
     dispatch(startTseInitialization());
   }
-  // dispatch(setTseInitialized(true));
+  dispatch(setTseInitialized(true));
 
   // useEffect(() => {
   //   const resizeObserver = new ResizeObserver((entries) => {
