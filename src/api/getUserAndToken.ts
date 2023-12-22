@@ -46,7 +46,7 @@ export const fetchUserAndToken = async () => {
     if (userResponse.data && userResponse.data.user && userResponse.data.user.nameID) {
       // Now fetch the different token that you need for global state
       const tokenResponse = await axios.post(
-        `${be_url}/getAuthToken`,
+        `${be_url}/getauthtoken`,
         {},
         {
           headers: { 'Content-Type': 'application/json' },
