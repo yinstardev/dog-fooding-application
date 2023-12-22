@@ -42,6 +42,7 @@ export const fetchUserAndToken = async () => {
     const userResponse = await axios.get(`${be_url}/whoami`, {
       withCredentials: true,
     });
+    console.log('inside fetch user token');
 
     if (userResponse.data && userResponse.data.user && userResponse.data.user.nameID) {
       // Now fetch the different token that you need for global state
@@ -53,7 +54,7 @@ export const fetchUserAndToken = async () => {
           withCredentials: true,
         },
       );
-
+      console.log('Token retrieved ig. ', tokenResponse.data);
       // Return both the user details and the different token
       return { email: userResponse.data.user.nameID, token: tokenResponse.data };
     } else {
