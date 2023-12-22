@@ -49,7 +49,6 @@ const DashboardPage: React.FC = () => {
         liveboardId={LB_ONE}
         frameParams={{ height: `${containerDimensions.height / 2}px` }}
         hiddenActions={[Action.SyncToOtherApps, Action.SyncToSheets, Action.ManagePipelines]}
-        preRenderId={tseState.supportCentralLiveboard + '-home'}
         disabledActions={[
           Action.DownloadAsPdf,
           Action.Edit,
@@ -65,6 +64,7 @@ const DashboardPage: React.FC = () => {
           'd13158bc-1597-4caa-8fdd-cd57f468831a',
         ]}
         hideLiveboardHeader={true}
+        preRenderId={tseState.supportCentralLiveboard + '-home'}
       />
     </S.FullScreenCol>
   );
