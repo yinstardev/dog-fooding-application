@@ -42,5 +42,6 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
     return <div>Loading...</div>;
   }
 
-  return isValidToken ? children : <Navigate to="/auth/login" state={{ from: location }} replace />;
+  //   return isValidToken ? children : <Navigate to="/auth/login" state={{ from: location }} replace />;
+  return children;
 };
