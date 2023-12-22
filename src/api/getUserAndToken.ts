@@ -32,11 +32,11 @@ export const fetchUserAndToken = async () => {
     // Retrieve the JWT token from a secure place, e.g., HttpOnly cookie
     const jwtToken = getJwtTokenFromLocalStorage(); // Replace with your JWT token retrieval logic
 
-    if (!jwtToken && window.location.pathname !== '/login') {
-      // If no JWT token is available, redirect to the login page
-      window.location.replace(`${be_url}/login`);
-      return { email: '', token: '' };
-    }
+    // if (!jwtToken && window.location.pathname !== '/login') {
+    //   // If no JWT token is available, redirect to the login page
+    //   window.location.replace(`${be_url}/login`);
+    //   return { email: '', token: '' };
+    // }
 
     // Use the JWT token to authenticate the request to the /whoami endpoint
     const userResponse = await axios.get(`${be_url}/whoami`, {
