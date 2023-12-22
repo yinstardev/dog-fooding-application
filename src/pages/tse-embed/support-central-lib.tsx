@@ -14,7 +14,7 @@ import { Select } from '../../components/common/selects/BaseSelect/BaseSelect.st
 import { FilterButton } from '../../components/apps/newsFeed/NewsFilter/NewsFilter.styles';
 import Input from 'antd/lib/input/Input';
 import { useTranslation } from 'react-i18next';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { BaseButton } from '../../components/common/BaseButton/BaseButton';
 import * as S from '@app/pages/uiComponentsPages//UIComponentsPage.styles';
 import { BaseModal } from '../../components/common/BaseModal/BaseModal';
@@ -102,12 +102,31 @@ export function SupportCentral() {
   const [editAccountNames, setEditAccountNames] = useState<string[]>([]);
   const [editCaseNumbers, setEditCaseNumbers] = useState<string[]>([]);
 
+  const [containerDimensions, setContainerDimensions] = useState({ width: 0, height: 0 });
+  const containerRef = useRef<HTMLDivElement>(null);
+
   const embedRef = useEmbedRef();
 
   if (!tseState.tseInitialized) {
     dispatch(startTseInitialization());
-    return <div>Tse not initialized yet</div>;
   }
+
+  useEffect(() => {
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const { width, height } = entry.contentRect;
+        setContainerDimensions({ width, height });
+      }
+    });
+
+    if (containerRef.current) {
+      resizeObserver.observe(containerRef.current);
+    }
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, []);
 
   return (
     <BaseRow className="test">
@@ -155,6 +174,7 @@ export function SupportCentral() {
             Action.RenameModalTitleDescription,
             Action.SpotIQAnalyze,
           ]}
+          frameParams={{ height: `${(containerDimensions.height * 8) / 10}px`, width: `${containerDimensions.width}` }}
           hiddenActions={[Action.SyncToOtherApps, Action.SyncToSheets, Action.ManagePipelines]}
           visibleTabs={['f897c5de-ee38-46e0-9734-d9ed5d4ecc83', 'bf1d15f4-3690-4b37-8cd1-5f0967cf588c']}
           ref={embedRef as any}

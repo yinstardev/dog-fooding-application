@@ -47,7 +47,7 @@ const DashboardPage: React.FC = () => {
       <PageTitle>{t('common.home')}</PageTitle>
       <LiveboardEmbed
         liveboardId={LB_ONE}
-        frameParams={{ height: `${containerDimensions.height / 2}px` }}
+        frameParams={{ height: `${containerDimensions.height / 2}px`, width: `${containerDimensions.width}` }}
         hiddenActions={[Action.SyncToOtherApps, Action.SyncToSheets, Action.ManagePipelines]}
         disabledActions={[
           Action.DownloadAsPdf,
