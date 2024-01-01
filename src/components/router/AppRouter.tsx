@@ -27,9 +27,9 @@ const LogoutFallback = withLoading(Logout);
 
 export const AppRouter: React.FC = () => {
   const protectedLayout = (
-    //<ProtectedRoute>
-    <MainLayout />
-    //</ProtectedRoute>
+    <ProtectedRoute>
+      <MainLayout />
+    </ProtectedRoute>
   );
 
   return (
