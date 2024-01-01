@@ -19,6 +19,7 @@ import { BaseButton } from '../../components/common/BaseButton/BaseButton';
 import * as S from '@app/pages/uiComponentsPages//UIComponentsPage.styles';
 import { BaseModal } from '../../components/common/BaseModal/BaseModal';
 import { FilterIcon } from '../../components/common/icons/FilterIcon';
+import { BlankIcon } from '../../components/common/icons/BlankIcon';
 import { Col, Form, Row } from 'antd';
 import FormItem from 'antd/es/form/FormItem';
 import { BaseCol } from '../../components/common/BaseCol/BaseCol';
@@ -112,6 +113,7 @@ export function SupportCentral() {
     <BaseRow className="test">
       <BaseButton style={{ marginBottom: '2em' }} type="primary" onClick={() => setIsBasicModalOpen(true)}>
         <FilterIcon />
+        <BlankIcon />
       </BaseButton>
       <BaseModal
         title={'Filter'}

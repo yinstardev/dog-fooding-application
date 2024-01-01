@@ -2,11 +2,13 @@ import React, { useEffect, useState, ReactElement } from 'react';
 import { Navigate, useLocation, Route, RouteProps } from 'react-router-dom';
 import axios from 'axios';
 
+const be_url = process.env.REACT_APP_BE_URL || '';
+
 // function to validate the token
 const validateToken = async () => {
   try {
     const token = localStorage.getItem('token');
-    const response = await axios.get('http://localhost:1337/validate-token', {
+    const response = await axios.get(`${be_url}/validate-token`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -14,6 +16,7 @@ const validateToken = async () => {
 
     return response.data.valid;
   } catch (error) {
+    window.location.replace(`${be_url}/login`);
     console.error('Token validation error', error);
     return false;
   }
@@ -42,5 +45,5 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
     return <div>Loading...</div>;
   }
 
-  return isValidToken ? children : <Navigate to="/auth/login" state={{ from: location }} replace />;
+  return isValidToken ? children : <Navigate to="/" state={{ from: location }} replace />;
 };
