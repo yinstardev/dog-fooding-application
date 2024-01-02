@@ -8,3 +8,6 @@
 .modal-styles {
     background-color: white !important;
 }
+.ant-modal-content {
+    --background-color: white;
+}
