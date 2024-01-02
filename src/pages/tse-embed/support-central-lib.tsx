@@ -129,7 +129,7 @@ export function SupportCentral() {
               {
                 columnName: 'Account Name',
                 operator: 'EQ',
-                values: editAccountNames,
+                values: ['Universal Studios, Inc.', 'Advanced Wireless Communications'],
               },
               {
                 columnName: 'Case Number',
