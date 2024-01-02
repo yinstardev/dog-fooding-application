@@ -51,6 +51,13 @@ function SuperSelect({
     console.log('Inside update options : ', allValues);
   };
 
+  const handleDeselect = (deselectedValue: any) => {
+    const newValues = selectedValues.filter((value) => value !== deselectedValue);
+    setSelectedValues(newValues);
+    updateValues?.(newValues);
+    console.log('ondeselect function : ', newValues);
+  };
+
   useEffect(() => {
     searchData({ query: '', columnName }).then(([data]) => updateOptions(data));
   }, []);
@@ -87,6 +94,7 @@ function SuperSelect({
           setSelectedValues(newValues);
           console.log('onselect function : ', newValues);
         }}
+        onDeselect={handleDeselect}
         value={selectedValues}
         loading={isLoading}
       />
@@ -137,6 +145,19 @@ export function SupportCentral() {
               ]);
             } else if (editAccountNames.length > 0 && editCaseNumbers.length == 0) {
               embedRef.current.trigger(HostEvent.UpdateRuntimeFilters, [
+                {
+                  columnName: 'Account Name',
+                  operator: 'EQ',
+                  values: editAccountNames,
+                },
+              ]);
+            } else if (editAccountNames.length > 0 && editCaseNumbers.length > 0) {
+              embedRef.current.trigger(HostEvent.UpdateRuntimeFilters, [
+                {
+                  columnName: 'Case Number',
+                  operator: 'EQ',
+                  values: editCaseNumbers,
+                },
                 {
                   columnName: 'Account Name',
                   operator: 'EQ',
