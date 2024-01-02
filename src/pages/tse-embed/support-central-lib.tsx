@@ -127,12 +127,12 @@ export function SupportCentral() {
           if (embedRef.current) {
             embedRef.current.trigger(HostEvent.UpdateRuntimeFilters, [
               {
-                columnName: 'Account Name',
+                columnName: 'Account Name'.toLowerCase(),
                 operator: 'EQ',
                 values: ['Universal Studios, Inc.', 'Advanced Wireless Communications'],
               },
               {
-                columnName: 'Case Number',
+                columnName: 'Case Number'.toLowerCase(),
                 operator: 'EQ',
                 values: editCaseNumbers,
               },
