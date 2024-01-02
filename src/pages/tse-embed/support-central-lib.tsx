@@ -125,6 +125,7 @@ export function SupportCentral() {
           setCaseNumbers(editCaseNumbers);
           setIsBasicModalOpen(false);
           console.log('Account names : ', editAccountNames);
+          console.log('Case Numbers : ', editCaseNumbers);
           if (embedRef.current) {
             embedRef.current.trigger(HostEvent.UpdateRuntimeFilters, [
               {
