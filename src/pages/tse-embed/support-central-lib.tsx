@@ -48,6 +48,7 @@ function SuperSelect({
   const updateOptions = (data: string[]) => {
     const allValues = [...new Set([...data, ...options])];
     setOptions(allValues);
+    console.log('Inside update options : ', allValues);
   };
 
   useEffect(() => {
@@ -84,6 +85,7 @@ function SuperSelect({
           const newValues = [...selectedValues, e];
           updateValues?.(newValues);
           setSelectedValues(newValues);
+          console.log('onselect function : ', newValues);
         }}
         value={selectedValues}
         loading={isLoading}
