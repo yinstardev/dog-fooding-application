@@ -1,0 +1,7 @@
+.popup-styles {
+    --item-hover-bg: rgb(0,0,139,0.15);
+    --ant-primary-1: lightgray;
+}
+.select-bg > div{
+    background-color: white !important;
+}

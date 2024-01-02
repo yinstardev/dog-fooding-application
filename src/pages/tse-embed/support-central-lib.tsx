@@ -62,6 +62,7 @@ function SuperSelect({
     >
       <Select
         mode="multiple"
+        popupClassName="popup-styles"
         options={options.map((e) => ({ value: e, label: e }))}
         onSearch={async (query) => {
           if (isLoading) return;
@@ -114,7 +115,6 @@ export function SupportCentral() {
       <BaseButton style={{ marginBottom: '2em' }} type="primary" onClick={() => setIsBasicModalOpen(true)}>
         <FilterIcon />
       </BaseButton>
-      <BlankIcon />
       <BaseModal
         title={'Filter'}
         open={isBasicModalOpen}
