@@ -147,7 +147,7 @@ export function SupportCentral() {
               embedRef.current.trigger(HostEvent.UpdateRuntimeFilters, [
                 {
                   columnName: 'Account Name',
-                  operator: 'EQ',
+                  operator: 'NEQ',
                   values: editAccountNames,
                 },
               ]);
