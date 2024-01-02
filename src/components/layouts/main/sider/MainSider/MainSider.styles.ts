@@ -41,7 +41,7 @@ export const CollapseButton = styled(BaseButton)<{ $isCollapsed: boolean }>`
       right: -1rem;
     `}
 
-  color: var(--text-secondary-color);
+  color: var(--text-main-color);
 
   &:hover {
     color: var(--text-main-color);
@@ -50,7 +50,7 @@ export const CollapseButton = styled(BaseButton)<{ $isCollapsed: boolean }>`
   }
 
   &:focus {
-    color: var(--text-secondary-color);
+    color: var(--text-main-color);
     background: var(--primary-color);
     border: 1px solid var(--border-color);
   }
