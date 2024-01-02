@@ -127,18 +127,23 @@ export function SupportCentral() {
           console.log('Account names : ', editAccountNames);
           console.log('Case Numbers : ', editCaseNumbers);
           if (embedRef.current) {
-            embedRef.current.trigger(HostEvent.UpdateRuntimeFilters, [
-              {
-                columnName: 'Account Name',
-                operator: 'EQ',
-                values: editAccountNames,
-              },
-              {
-                columnName: 'Case Number',
-                operator: 'EQ',
-                values: editCaseNumbers,
-              },
-            ]);
+            if (editAccountNames.length == 0 && editCaseNumbers.length > 0) {
+              embedRef.current.trigger(HostEvent.UpdateRuntimeFilters, [
+                {
+                  columnName: 'Case Number',
+                  operator: 'EQ',
+                  values: editCaseNumbers,
+                },
+              ]);
+            } else if (editAccountNames.length > 0 && editCaseNumbers.length == 0) {
+              embedRef.current.trigger(HostEvent.UpdateRuntimeFilters, [
+                {
+                  columnName: 'Account Name',
+                  operator: 'EQ',
+                  values: editAccountNames,
+                },
+              ]);
+            }
           }
         }}
         onCancel={() => setIsBasicModalOpen(false)}
