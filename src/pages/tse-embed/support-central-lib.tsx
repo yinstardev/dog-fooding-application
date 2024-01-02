@@ -52,7 +52,7 @@ function SuperSelect({
   };
 
   useEffect(() => {
-    searchData({ query: 'a', columnName }).then(([data]) => updateOptions(data));
+    searchData({ query: '', columnName }).then(([data]) => updateOptions(data));
   }, []);
 
   return (
@@ -129,12 +129,12 @@ export function SupportCentral() {
           if (embedRef.current) {
             embedRef.current.trigger(HostEvent.UpdateRuntimeFilters, [
               {
-                columnName: 'Account Name'.toLowerCase(),
+                columnName: 'Account Name',
                 operator: 'EQ',
-                values: ['Universal Studios, Inc.', 'Advanced Wireless Communications'],
+                values: editAccountNames,
               },
               {
-                columnName: 'Case Number'.toLowerCase(),
+                columnName: 'Case Number',
                 operator: 'EQ',
                 values: editCaseNumbers,
               },
