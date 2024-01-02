@@ -128,6 +128,7 @@ export function SupportCentral() {
       </BaseButton>
       <BaseModal
         title={'Filter'}
+        className="modal-styles"
         open={isBasicModalOpen}
         onOk={() => {
           setAccountNames(editAccountNames);
