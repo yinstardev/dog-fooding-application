@@ -197,7 +197,7 @@ async function searchData({ query, columnName }: SearchDataParam): Promise<[stri
   };
 
   const data = {
-    query_string: `[${columnName}] CONTAINS '${query}'`,
+    query_string: `[${columnName}]`,
     logical_table_identifier: '54beb173-d755-42e0-8f73-4d4ec768114f',
     data_format: 'COMPACT',
     record_offset: 0,
