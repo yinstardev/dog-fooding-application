@@ -59,8 +59,9 @@ function SuperSelect({
   };
 
   useEffect(() => {
+    setSelectedValues(defaultValues || []);
     searchData({ query: '', columnName }).then(([data]) => updateOptions(data));
-  }, []);
+  }, [defaultValues, columnName]);
 
   return (
     <BaseButtonsForm.Item
@@ -170,8 +171,8 @@ export function SupportCentral() {
         onCancel={() => setIsBasicModalOpen(false)}
       >
         <BaseForm>
-          <SuperSelect columnName="Account Name" defaultValues={accountNames} updateValues={setEditAccountNames} />
-          <SuperSelect columnName="Case Number" defaultValues={caseNumbers} updateValues={setEditCaseNumbers} />
+          <SuperSelect columnName="Account Name" defaultValues={editAccountNames} updateValues={setEditAccountNames} />
+          <SuperSelect columnName="Case Number" defaultValues={editCaseNumbers} updateValues={setEditCaseNumbers} />
         </BaseForm>
       </BaseModal>
 
