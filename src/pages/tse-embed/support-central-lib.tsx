@@ -166,6 +166,8 @@ export function SupportCentral() {
                   values: editAccountNames,
                 },
               ]);
+            } else {
+              embedRef.current.trigger(HostEvent.Reload);
             }
           }
         }}
