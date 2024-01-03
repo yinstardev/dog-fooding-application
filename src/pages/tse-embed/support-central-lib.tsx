@@ -48,14 +48,12 @@ function SuperSelect({
   const updateOptions = (data: string[]) => {
     const allValues = [...new Set([...data, ...options])];
     setOptions(allValues);
-    console.log('Inside update options : ', allValues);
   };
 
   const handleDeselect = (deselectedValue: any) => {
     const newValues = selectedValues.filter((value) => value !== deselectedValue);
     setSelectedValues(newValues);
     updateValues?.(newValues);
-    console.log('ondeselect function : ', newValues);
   };
 
   useEffect(() => {
@@ -93,7 +91,6 @@ function SuperSelect({
           const newValues = [...selectedValues, e];
           updateValues?.(newValues);
           setSelectedValues(newValues);
-          console.log('onselect function : ', newValues);
         }}
         onDeselect={handleDeselect}
         value={selectedValues}
@@ -134,8 +131,6 @@ export function SupportCentral() {
           setAccountNames(editAccountNames);
           setCaseNumbers(editCaseNumbers);
           setIsBasicModalOpen(false);
-          console.log('Account names : ', editAccountNames);
-          console.log('Case Numbers : ', editCaseNumbers);
           if (embedRef.current) {
             if (editAccountNames.length == 0 && editCaseNumbers.length > 0) {
               embedRef.current.trigger(HostEvent.UpdateRuntimeFilters, [
