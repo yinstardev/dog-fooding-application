@@ -15,7 +15,6 @@ export function ChampagneFullApp() {
 
   return (
     <BaseRow className="test">
-      <b>Full App Champagne</b>
       <div className="tseEmbed">
         <AppEmbed preRenderId="full-app-embed" showPrimaryNavbar={true} />
       </div>
