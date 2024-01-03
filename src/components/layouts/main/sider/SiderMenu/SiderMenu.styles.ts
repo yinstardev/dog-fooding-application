@@ -51,6 +51,15 @@ export const Menu = styled(BaseMenu)`
   .ant-menu-submenu-active .ant-menu-submenu-title {
     background-color: transparent !important;
   }
+  .ant-menu-item:hover,
+  .ant-menu-submenu-title:hover {
+    color: blue;
+  }
+
+  .ant-menu-item-selected:hover,
+  .ant-menu-submenu-selected:hover {
+    color: green;
+  }
 
   .ant-tooltip-open>span>a: hover {
     color: var(--text-sider-primary-color);
