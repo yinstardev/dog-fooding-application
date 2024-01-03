@@ -52,7 +52,7 @@ export const Menu = styled(BaseMenu)`
     background-color: transparent !important;
   }
 
-  .ant-tooltip-open > span:hover {
+  .ant-tooltip-open>span>a: hover {
     color: var(--text-sider-primary-color);
   }
 `;
