@@ -167,7 +167,7 @@ export function SupportCentral() {
                 },
               ]);
             } else {
-              embedRef.current.trigger(HostEvent.Reload);
+              embedRef.current.trigger(HostEvent.UpdateRuntimeFilters, []);
             }
           }
         }}
