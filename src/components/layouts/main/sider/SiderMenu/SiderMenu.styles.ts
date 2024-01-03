@@ -51,4 +51,8 @@ export const Menu = styled(BaseMenu)`
   .ant-menu-submenu-active .ant-menu-submenu-title {
     background-color: transparent !important;
   }
+
+  .ant-tooltip-open > span {
+    color: var(--text-sider-primary-color);
+  }
 `;
